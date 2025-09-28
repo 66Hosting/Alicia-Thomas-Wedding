@@ -81,7 +81,15 @@
             <h2 class="text-3xl" style="font-family: 'Playfair Display', serif;">Alicia & Thomas</h2>
             <p class="text-gray-600 my-6">Please enter the password to view our wedding website.</p>
             <form id="password-form">
-                <input type="password" id="password-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C08261]" placeholder="Password">
+                <div class="relative">
+                    <input type="password" id="password-input" class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C08261]" placeholder="Password">
+                    <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700">
+                        <!-- Eye icon SVG -->
+                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        <!-- Eye-off icon SVG (initially hidden) -->
+                        <svg id="eye-off-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                    </button>
+                </div>
                 <p id="error-message" class="text-red-500 text-sm mt-2 h-5"></p> <!-- Placeholder for error message -->
                 <button type="submit" class="btn mt-4 w-full bg-[#C08261] text-white font-bold py-3 px-8 rounded-full hover:bg-[#a96a4a]">
                     Enter
@@ -124,9 +132,9 @@
                         </p>
                         <p class="mt-6 text-2xl" style="font-family: 'Playfair Display', serif;">With love,</p>
                         <p class="text-2xl" style="font-family: 'Playfair Display', serif;">Alicia & Thomas</p>
-                        <button class="btn mt-8 bg-[#C08261] text-white font-bold py-3 px-8 rounded-full hover:bg-[#a96a4a]">
+                        <a href="https://forms.gle/TFPNiRdUpMdV2nhV6" target="_blank" rel="noopener noreferrer" class="btn inline-block mt-8 bg-[#C08261] text-white font-bold py-3 px-8 rounded-full hover:bg-[#a96a4a]">
                             RSVP Now
-                        </button>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -216,18 +224,19 @@
                         <div class="space-y-4">
                             <div>
                                 <h4 class="font-bold text-lg">By Car</h4>
-                                <p>Both venues are easily accessible by car and have parking available for guests. Harrowden Hall will allow cars to be left overnight but they must be collected by 10:00 AM the following morning.</p>
+                                <p>We recommend that you park at Harrowden Hall for the whole day. Please use the bus provided that will take you to the church and return you to Harrowden Hall after the ceremony. Please tell us if you intend to use this option when you complete the RSVP form.</p>
                             </div>
                             <div>
                                 <h4 class="font-bold text-lg">By Train</h4>
-                                <p>The nearest major station is Wellingborough, which is a short taxi ride from Harrowden Hall. We recommend pre-booking a taxi.</p>
+                                <p>The nearest major station is Wellingborough, which is a short taxi ride from Harrowden Hall. There are also train stations at Northampton and Kettering. We recommend pre-booking a taxi.</p>
                             </div>
                              <div>
                                 <h4 class="font-bold text-lg">Local Taxis</h4>
-                                <ul class="list-disc list-inside">
-                                    <li>Bounds Taxis: 01933 222222</li>
-                                    <li>Lee Cabs: 01933 442444</li>
-                                    <li>Station Taxis: 01933 440440</li>
+                                <p class="italic text-sm mb-2">We strongly advise that taxis are pre-booked before the big day.</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><a href="https://www.harrisonswellingborough.co.uk/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Harrisons Wellingborough</a>: 01933 711 111</li>
+                                    <li><a href="https://www.skylinetaxis.co.uk/northampton/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Skyline Taxis Northampton</a>: 01604 222 111</li>
+                                    <li><a href="https://www.swiftcabs.co.uk/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Swift Cabs Kettering</a>: 01536 420000</li>
                                 </ul>
                             </div>
                         </div>
@@ -237,18 +246,23 @@
                         <p class="mb-4">We recommend booking your accommodation as soon as possible. Here are a few recommendations:</p>
                         <div class="space-y-4">
                            <div>
-                                <h4 class="font-bold text-lg">The Hind Hotel (Hotel Block)</h4>
-                                <p>Located in Wellingborough. Use code <strong class="text-[#C08261]">AT2026</strong> when booking for a discounted rate. Offer valid until July 1st, 2026.</p>
+                                <h4 class="font-bold text-lg"><a href="https://www.accor.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">The Hind Hotel</a></h4>
+                                <p>Conveniently located in Wellingborough town centre.</p>
                            </div>
                            <div>
-                                <h4 class="font-bold text-lg">The Columbia Hotel</h4>
-                                <p>Another good option in Wellingborough town centre.</p>
+                                <h4 class="font-bold text-lg"><a href="https://www.ketteringparkhotel.co.uk/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Kettering Park Hotel and Spa</a></h4>
+                                <p>A lovely spa hotel a short drive away.</p>
                            </div>
                            <div>
-                                <h4 class="font-bold text-lg">The World's End</h4>
-                                <p>A comfortable and convenient pub with rooms in Ecton.</p>
+                                <h4 class="font-bold text-lg"><a href="https://www.premierinn.com/gb/en/hotels/england/northamptonshire/wellingborough/wellingborough.html" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Premier Inn Wellingborough</a></h4>
+                                <p>A reliable and budget-friendly choice.</p>
+                           </div>
+                           <div>
+                                <h4 class="font-bold text-lg"><a href="https://www.travelodge.co.uk/hotels/338/Wellingborough-Rushden-hotel" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Travelodge Wellingborough</a></h4>
+                                <p>Another great budget-friendly option.</p>
                            </div>
                         </div>
+                        <p class="mt-6 text-sm italic text-gray-600">Local Airbnb options may also be available.</p>
                     </div>
                 </div>
             </section>
@@ -295,9 +309,19 @@
         const passwordInput = document.getElementById('password-input');
         const errorMessage = document.getElementById('error-message');
         const siteContent = document.getElementById('site-content');
+        const togglePasswordButton = document.getElementById('toggle-password');
+        const eyeIcon = document.getElementById('eye-icon');
+        const eyeOffIcon = document.getElementById('eye-off-icon');
 
         // --- CHANGE YOUR PASSWORD HERE ---
         const correctPassword = 'celebrate2026';
+
+        togglePasswordButton.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            eyeIcon.classList.toggle('hidden');
+            eyeOffIcon.classList.toggle('hidden');
+        });
 
         passwordForm.addEventListener('submit', function(event) {
             event.preventDefault();
