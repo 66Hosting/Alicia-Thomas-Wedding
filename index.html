@@ -5,208 +5,320 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alicia & Thomas's Wedding</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- New font theme: Lato and Lora -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #FDF8F5; /* Soft cream background */
-            color: #4B4237; /* Warm brown-grey text */
+            /* New font */
+            font-family: 'Lato', sans-serif;
+            /* New background color */
+            background-color: #F9FAFB; /* bg-gray-50 */
+            color: #374151; /* text-gray-700 */
         }
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
+        h1, h2, h3, h4, h5, h6 {
+            /* New heading font */
+            font-family: 'Lora', serif;
+        }
+        .header-bg {
+            /* New header image and tint */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://placehold.co/1600x900/A7F3D0/333333?text=A%26T');
+            background-size: cover;
+            background-position: center;
         }
         .nav-link {
-            transition: color 0.3s, border-bottom-color 0.3s;
-            border-bottom: 2px solid transparent;
+            /* New nav link colors */
+            @apply relative py-2 px-3 text-sm font-medium uppercase tracking-wider text-gray-500 transition duration-300 ease-in-out;
         }
-        .nav-link:hover, .nav-link.active {
-            color: #C08261; /* Muted terracotta */
-            border-bottom-color: #C08261;
+        .nav-link:hover {
+            color: #059669; /* emerald-600 */
         }
-        .content-section {
-            display: none; /* Hide all sections by default */
-        }
-        .content-section.active {
-            display: block; /* Show the active section */
-        }
-        .btn {
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-        /* Custom styles for timeline */
-        .timeline-item {
-            position: relative;
-            padding-left: 2.5rem;
-            padding-bottom: 2rem;
-            border-left: 2px solid #E1C7B8;
-        }
-        .timeline-item:last-child {
-            border-left: none;
-            padding-bottom: 0;
-        }
-        .timeline-item::before {
+        .nav-link::after {
             content: '';
             position: absolute;
-            left: -0.6rem;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            /* New accent color */
+            background-color: #059669; /* emerald-600 */
+            transition: width 0.3s ease-in-out;
+        }
+        .nav-link.active {
+            color: #059669; /* emerald-600 */
+        }
+        .nav-link.active::after {
+            width: 100%;
+        }
+        .content-section {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        .content-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .button-primary {
+            /* New button color */
+            @apply bg-emerald-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transform transition-transform duration-300;
+        }
+        .button-primary:hover {
+            /* New button hover color */
+            @apply bg-emerald-700 shadow-xl -translate-y-0.5;
+        }
+        
+        /* Password Overlay */
+        #password-overlay {
+            position: fixed;
             top: 0;
-            width: 1.125rem;
-            height: 1.125rem;
-            border-radius: 50%;
-            background-color: #C08261;
-            border: 3px solid #FDF8F5;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* New background color */
+            background-color: #F9FAFB; /* bg-gray-50 */
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-in-out;
         }
-        /* Shake animation for incorrect password */
-        @keyframes shake {
-          10%, 90% { transform: translate3d(-1px, 0, 0); }
-          20%, 80% { transform: translate3d(2px, 0, 0); }
-          30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-          40%, 60% { transform: translate3d(4px, 0, 0); }
+        .password-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
         }
-        .animate-shake {
-            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        #password-toggle {
+            position: absolute;
+            top: 50%;
+            right: 0.75rem;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6b7280;
+        }
+        #password-toggle:hover {
+            color: #374151;
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Password Overlay -->
-    <div id="password-overlay" class="fixed inset-0 bg-[#FDF8F5] bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div class="bg-white p-8 rounded-lg shadow-2xl text-center w-full max-w-sm">
-            <h2 class="text-3xl" style="font-family: 'Playfair Display', serif;">Alicia & Thomas</h2>
-            <p class="text-gray-600 my-6">Please enter the password to view our wedding website.</p>
-            <form id="password-form">
-                <div class="relative">
-                    <input type="password" id="password-input" class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C08261]" placeholder="Password">
-                    <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700">
-                        <!-- Eye icon SVG -->
-                        <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                        <!-- Eye-off icon SVG (initially hidden) -->
-                        <svg id="eye-off-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
-                    </button>
-                </div>
-                <p id="error-message" class="text-red-500 text-sm mt-2 h-5"></p> <!-- Placeholder for error message -->
-                <button type="submit" class="btn mt-4 w-full bg-[#C08261] text-white font-bold py-3 px-8 rounded-full hover:bg-[#a96a4a]">
-                    Enter
-                </button>
-            </form>
+    <!-- Password Protection -->
+    <div id="password-overlay">
+        <div class="password-box">
+            <h2 class="text-3xl font-bold mb-4">You're Invited!</h2>
+            <p class="mb-6 text-gray-600">Please enter the password to view our wedding website.</p>
+            <div class="relative">
+                <!-- New focus ring color -->
+                <input type="password" id="password-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Enter password">
+                <span id="password-toggle" onclick="togglePasswordVisibility()">
+                    <!-- Eye Icon (hidden by default) -->
+                    <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                      <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+                      <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+                    </svg>
+                    <!-- Eye-slash Icon (visible by default) -->
+                    <svg id="eye-slash-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16" style="display: none;">
+                      <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
+                      <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                    </svg>
+                </span>
+            </div>
+            <button id="password-submit" class="w-full button-primary mt-4">Enter</button>
+            <p id="password-error" class="text-red-500 text-sm mt-3" style="display: none;">Incorrect password, please try again.</p>
         </div>
     </div>
 
-    <!-- Main Site Content (Initially Hidden) -->
-    <div id="site-content" class="container mx-auto max-w-5xl p-4 md:p-8" style="display: none;">
-        <!-- Header Section -->
-        <header class="text-center py-8">
-            <h1 class="text-4xl md:text-6xl text-[#4B4237]">Alicia & Thomas</h1>
-            <p class="mt-2 text-lg md:text-xl text-gray-600">ARE GETTING MARRIED</p>
-            <p class="mt-4 text-2xl md:text-3xl font-light text-[#C08261]" style="font-family: 'Playfair Display', serif;">September 5, 2026</p>
+    <!-- Main Website Content (Hidden by default) -->
+    <div id="main-content" class="hidden">
+        
+        <!-- Header -->
+        <header class="header-bg text-white text-center py-20 md:py-32">
+            <h1 class="text-6xl md:text-8xl font-bold" style="font-family: 'Lora', serif;">Alicia & Thomas</h1>
+            <p class="text-xl md:text-2xl mt-4 tracking-wider uppercase">Are Getting Married</p>
+            <p class="text-2xl md:text-3xl mt-2 font-light" style="font-family: 'Lora', serif;">September 5, 2026</p>
         </header>
 
         <!-- Navigation -->
-        <nav class="flex justify-center border-b border-gray-200 mb-8 md:mb-12">
-            <ul class="flex flex-wrap justify-center space-x-4 md:space-x-8 py-4">
-                <li><a href="#home" class="nav-link active pb-2 text-lg">Home</a></li>
-                <li><a href="#day" class="nav-link pb-2 text-lg">On The Day</a></li>
-                <li><a href="#travel" class="nav-link pb-2 text-lg">Travel</a></li>
-                <li><a href="#faq" class="nav-link pb-2 text-lg">FAQs</a></li>
-            </ul>
+        <nav class="bg-white shadow-md sticky top-0 z-50">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex justify-center items-center h-16">
+                    <div class="flex space-x-2 md:space-x-8">
+                        <a href="#home" class="nav-link active">Home</a>
+                        <a href="#story" class="nav-link">Our Story</a>
+                        <a href="#on-the-day" class="nav-link">On the Day</a>
+                        <a href="#travel" class="nav-link">Travel & Accom.</a>
+                        <a href="#faq" class="nav-link">FAQs</a>
+                        <a href="https://forms.gle/TFPNiRdUpMdV2nhV6" target="_blank" class="nav-link">RSVP</a>
+                    </div>
+                </div>
+            </div>
         </nav>
 
-        <main>
+        <!-- Page Content -->
+        <main class="max-w-6xl mx-auto p-6 md:p-12">
+            
             <!-- Home Section -->
-            <section id="home" class="content-section active">
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                    <img src="https://placehold.co/1000x500/E1C7B8/4B4237?text=Alicia+%26+Thomas" alt="Alicia and Thomas" class="w-full h-64 md:h-96 object-cover">
-                    <div class="p-6 md:p-12 text-center">
-                        <h2 class="text-4xl font-bold mb-4">Welcome!</h2>
+            <section id="home" class="content-section active text-center">
+                <div class="py-12">
+                    <h2 class="text-5xl font-bold mb-8">Welcome!</h2>
+                    <div class="space-y-6 text-gray-700">
                         <p class="text-lg leading-relaxed max-w-3xl mx-auto">
-                            We are so excited to celebrate our special day with you. We’ve created this space as a convenient way to share all of the important details with you in the lead-up to our wedding. Here you’ll find our schedule for the day, travel and accommodation information, and answers to some frequently asked questions.
+                            We are so excited to celebrate our special day with you. We’vecreated this space as a convenient way to share all of the important details with you in the lead-up to our wedding. Here you’ll find our schedule for the day, travel and accommodation information, and answers to some frequently asked questions.
                         </p>
                         <p class="text-lg leading-relaxed max-w-3xl mx-auto mt-4">
-                            We are so looking forward to celebrating this next chapter of our lives with all of our favourite people.
+                            We are so looking forward to celebrating this next chapter of our lives with all of our favourite people. Please RSVP by 30th April 2026.
                         </p>
-                        <p class="mt-6 text-2xl" style="font-family: 'Playfair Display', serif;">With love,</p>
-                        <p class="text-2xl" style="font-family: 'Playfair Display', serif;">Alicia & Thomas</p>
-                        <a href="https://forms.gle/TFPNiRdUpMdV2nhV6" target="_blank" rel="noopener noreferrer" class="btn inline-block mt-8 bg-[#C08261] text-white font-bold py-3 px-8 rounded-full hover:bg-[#a96a4a]">
+                        <!-- New font style -->
+                        <p class="mt-6 text-2xl" style="font-family: 'Lora', serif;">With love,</p>
+                        <p class="text-4xl" style="font-family: 'Lora', serif;">Alicia & Thomas</p>
+                        
+                        <a href="https://forms.gle/TFPNiRdUpMdV2nhV6" target="_blank" class="inline-block button-primary mt-8">
                             RSVP Now
                         </a>
                     </div>
                 </div>
             </section>
 
-            <!-- On The Day Section -->
-            <section id="day" class="content-section">
+            <!-- Our Story Section -->
+            <section id="story" class="content-section">
                 <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold">The Big Day</h2>
-                    <p class="text-lg mt-2 text-gray-600">Please arrive by 1:45 PM for a 2:00 PM start. We can't wait to see you!</p>
+                     <h2 class="text-4xl font-bold">Our Story</h2>
                 </div>
-                <div class="grid md:grid-cols-2 gap-12">
+                <div class="max-w-3xl mx-auto space-y-6 bg-white p-8 md:p-12 rounded-lg shadow-lg text-gray-700 leading-relaxed">
+                    <p>We grew up just a few miles apart, yet somehow our paths never truly crossed until 2015 and it wasn’t until 2020 that we finally found our way to each other.</p>
+                    <p>Starting a relationship in the middle of lockdown probably wouldn’t feature in any dating guide. But a picnic two metres apart at Summer Leys Nature Reserve soon became long walks around Wilby and Earls Barton and endless chats on park benches.</p>
+                    <p>What Alicia didn’t know was that Tom had noticed her years earlier in the Sixth Form common room, when she was the new girl at school. He added her on Facebook and, in classic Tom fashion nervously, waited four years before ever sending a message.</p>
+                    <p>Since 2020, we’ve made a home together, travelled to eight countries, navigated a few job changes, over 20 trips to the theatre and shared more bottles of Prosecco than we’d care to count.</p>
+                    <p>In March 2025, Tom proposed on the same bench where we’d had our first date. Alicia’s first words were, “NO WAY!” but of course it was always going to be a yes.</p>
+                    <p>Now, we can’t wait to celebrate our wedding surrounded by the people who mean the most to us. </p>
+                    <p>We’d love you to join us on Saturday 5th September 2026 as we begin the next chapter of our lives together.</p>
+                </div>
+            </section>
+
+            <!-- On the Day Section -->
+            <section id="on-the-day" class="content-section">
+                <div class="text-center mb-12">
+                     <h2 class="text-4xl font-bold">On the Day</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                     <!-- Schedule -->
-                    <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
-                        <h3 class="text-3xl font-bold mb-6 text-center">The Schedule</h3>
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <h4 class="text-xl font-semibold text-[#4B4237]">The Ceremony</h4>
-                                <p class="text-lg font-bold text-[#C08261]">2:00 PM</p>
-                                <p class="mt-1"><a href="https://www.google.com/maps/search/?api=1&query=All+Saints+Church+Earls+Barton" target="_blank" class="text-gray-600 hover:text-[#C08261] underline">All Saints Church</a></p>
-                                <p class="text-gray-500 text-sm">Earls Barton</p>
+                    <div class="space-y-6">
+                        <!-- New accent color -->
+                        <h3 class="text-3xl font-semibold border-b-2 border-emerald-200 pb-2">The Schedule</h3>
+                        <div class="flex">
+                            <div class="w-24 text-right pr-4">
+                                <!-- New accent color -->
+                                <p class="text-lg font-bold text-emerald-700">12:15 PM</p>
                             </div>
-                            <div class="timeline-item">
-                                <h4 class="text-xl font-semibold text-[#4B4237]">Drinks Reception</h4>
-                                <p class="text-lg font-bold text-[#C08261]">3:00 PM - 4:30 PM</p>
-                                <p class="mt-1"><a href="https://www.google.com/maps/search/?api=1&query=Harrowden+Hall+Wellingborough" target="_blank" class="text-gray-600 hover:text-[#C08261] underline">Harrowden Hall</a></p>
-                                <p class="text-gray-500 text-sm">Join us for cocktails, canapés, and conversation.</p>
+                            <!-- New accent color -->
+                            <div class="border-l-2 border-emerald-200 pl-4">
+                                <h4 class="text-xl font-semibold">Bus Departure</h4>
+                                <p class="text-gray-600">Harrowden Hall</p>
                             </div>
-                            <div class="timeline-item">
-                                <h4 class="text-xl font-semibold text-[#4B4237]">Dinner & Speeches</h4>
-                                <p class="text-lg font-bold text-[#C08261]">4:30 PM</p>
-                                <p class="mt-1"><a href="https://www.google.com/maps/search/?api=1&query=Harrowden+Hall+Wellingborough" target="_blank" class="text-gray-600 hover:text-[#C08261] underline">Harrowden Hall, Wellingborough</a></p>
-                                <p class="text-gray-500 text-sm">Time to eat, drink, and be merry!</p>
+                        </div>
+                        <div class="flex">
+                            <div class="w-24 text-right pr-4">
+                                <p class="text-lg font-bold text-emerald-700">1:00 PM</p>
                             </div>
-                            <div class="timeline-item">
-                                <h4 class="text-xl font-semibold text-[#4B4237]">Evening Celebrations</h4>
-                                <p class="text-lg font-bold text-[#C08261]">7:30 PM onwards</p>
-                                <p class="text-gray-600 mt-1">Get your dancing shoes on!</p>
+                            <div class="border-l-2 border-emerald-200 pl-4">
+                                <h4 class="text-xl font-semibold">The Ceremony</h4>
+                                <a href="https://maps.app.goo.gl/9ZgK5xZzGf9f8gVq7" target="_blank" class="text-gray-600 hover:text-emerald-700 underline transition-colors">
+                                    All Saints Church, Earls Barton
+                                </a>
+                                <p class="text-gray-600 mt-1"><b class="text-gray-800">Please arrive and be seated by 12:45 pm</b></p>
                             </div>
-                            <div class="timeline-item">
-                                <h4 class="text-xl font-semibold text-[#4B4237]">Carriages</h4>
-                                <p class="text-lg font-bold text-[#C08261]">12:00 AM</p>
+                        </div>
+                        <div class="flex">
+                            <div class="w-24 text-right pr-4">
+                                <p class="text-lg font-bold text-emerald-700">3:00 PM</p>
+                            </div>
+                            <div class="border-l-2 border-emerald-200 pl-4">
+                                <h4 class="text-xl font-semibold">Drinks Reception</h4>
+                                <a href="https://maps.app.goo.gl/x8TQLgKxG51x8HqV7" target="_blank" class="text-gray-600 hover:text-emerald-700 underline transition-colors">
+                                    Harrowden Hall
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="w-24 text-right pr-4">
+                                <p class="text-lg font-bold text-emerald-700">4:00 PM</p>
+                            </div>
+                            <div class="border-l-2 border-emerald-200 pl-4">
+                                <h4 class="text-xl font-semibold">Dinner & Speeches</h4>
+                                <p class="text-gray-600">Harrowden Hall</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="w-24 text-right pr-4">
+                                <p class="text-lg font-bold text-emerald-700">7:00 PM</p>
+                            </div>
+                            <div class="border-l-2 border-emerald-200 pl-4">
+                                <h4 class="text-xl font-semibold">Evening Celebrations</h4>
+                                <p class="text-gray-600">Harrowden Hall</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="w-24 text-right pr-4">
+                                <p class="text-lg font-bold text-emerald-700">11:00 PM</p>
+                            </div>
+                            <div class="border-l-2 border-emerald-200 pl-4">
+                                <h4 class="text-xl font-semibold">Carriages</h4>
                             </div>
                         </div>
                     </div>
                     <!-- Other Details -->
-                    <div class="space-y-8">
-                        <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
-                            <h3 class="text-3xl font-bold mb-4 text-center">Dress Code</h3>
-                            <p class="text-center text-lg">We would love to see our friends and family get dressed up with us! The dress code is <strong class="text-[#C08261]">Cocktail Attire</strong>. For the gentlemen, this means a suit and tie. For the ladies, a cocktail dress, jumpsuit, or formal separates.</p>
+                    <div class="space-y-6">
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-3xl font-semibold mb-4 border-b-2 border-emerald-200 pb-2">An Unplugged Ceremony</h3>
+                            <p class="text-gray-700 leading-relaxed">
+                                We kindly ask that you switch off your phones and cameras during the ceremony. We want to see your lovely faces, not your devices! We have a wonderful photographer who will capture the moment, and we promise to share the photos with you all.
+                            </p>
                         </div>
-                        <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
-                            <h3 class="text-3xl font-bold mb-4 text-center">Unplugged Ceremony</h3>
-                            <p class="text-center text-lg">We kindly ask that you switch off your phones and cameras during the ceremony. We want to see your lovely faces, not your devices! We have a wonderful photographer who will capture the moment, and we promise to share the photos.</p>
-                        </div>
-                        <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
-                            <h3 class="text-3xl font-bold mb-4 text-center">The Menu</h3>
-                            <div class="text-center text-lg space-y-4">
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h3 class="text-3xl font-semibold mb-4 border-b-2 border-emerald-200 pb-2">Wedding Breakfast Menu</h3>
+                            <p class="text-gray-700 leading-relaxed text-sm mb-4">
+                                Allergen codes are noted at the bottom. Please let us know of any dietary requirements when you RSVP.
+                            </p>
+                            
+                            <div class="space-y-4 text-gray-700">
                                 <div>
-                                    <h4 class="font-semibold text-[#C08261]">Starter</h4>
-                                    <p>Cream of Tomato and Basil Soup</p>
+                                    <!-- New accent color -->
+                                    <h4 class="font-bold text-emerald-700">To Start:</h4>
+                                    <ul class="list-disc list-inside ml-4">
+                                        <li>Caprese salad with balsamic glaze (D, Sulph)</li>
+                                        <li>Brixworth pâté, red onion chutney and melba toast (G, M, Cel, Sulph)</li>
+                                    </ul>
                                 </div>
                                 <div>
-                                    <h4 class="font-semibold text-[#C08261]">Main Course</h4>
-                                    <p>Roast Chicken with Seasonal Vegetables or<br>Mushroom Risotto (V)</p>
+                                    <h4 class="font-bold text-emerald-700">To Follow:</h4>
+                                    <ul class="list-disc list-inside ml-4">
+                                        <li>Roast striploin of beef served with a Yorkshire pudding and rich gravy (G, E, M)</li>
+                                        <li>Poached salmon supreme served with lemon, caper and dill sauce (M)</li>
+                                        <li>Wild mushroom, spinach and cream cheese wellington with a garlic cream sauce (G, E, M)</li>
+                                    </ul>
                                 </div>
-                                <div>
-                                    <h4 class="font-semibold text-[#C08261]">Dessert</h4>
-                                    <p>Chocolate Brownie with Vanilla Ice Cream</p>
+                                 <div>
+                                    <h4 class="font-bold text-emerald-700">To Finish:</h4>
+                                    <ul class="list-disc list-inside ml-4">
+                                        <li>Red berry Eton mess served with raspberry sorbet (M, E)</li>
+                                        <li>New York baked vanilla cheesecake served with very berry ice cream (G, E, M)</li>
+                                    </ul>
                                 </div>
-                                <p class="text-sm text-gray-500 pt-4">Please let us know of any dietary requirements when you RSVP.</p>
+                                <div class="text-xs text-gray-500 pt-4 border-t mt-4">
+                                    <p>G - gluten, spelt, rye and khorsean wheat | M - milk (including lactose) | D - dairy | E - eggs | Cel - celery (including celeriac) | Sulph - sulphur dioxide</p>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </section>
@@ -214,55 +326,106 @@
             <!-- Travel & Accommodation Section -->
             <section id="travel" class="content-section">
                 <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold">Travel & Accommodation</h2>
-                    <p class="text-lg mt-2 text-gray-600 max-w-3xl mx-auto">We know many of you will be travelling to celebrate with us, which means the world! Here is some information to help you plan your trip.</p>
+                     <h2 class="text-4xl font-bold">Travel & Accommodation</h2>
                 </div>
-
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
-                        <h3 class="text-3xl font-bold mb-4">Getting There</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-bold text-lg">By Car</h4>
-                                <p>We recommend that you park at Harrowden Hall for the whole day. Please use the bus provided that will take you to the church and return you to Harrowden Hall after the ceremony. Please tell us if you intend to use this option when you complete the RSVP form.</p>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-lg">By Train</h4>
-                                <p>The nearest major station is Wellingborough, which is a short taxi ride from Harrowden Hall. There are also train stations at Northampton and Kettering. We recommend pre-booking a taxi.</p>
-                            </div>
-                             <div>
-                                <h4 class="font-bold text-lg">Local Taxis</h4>
-                                <p class="italic text-sm mb-2">We strongly advise that taxis are pre-booked before the big day.</p>
-                                <ul class="list-disc list-inside space-y-1">
-                                    <li><a href="https://www.harrisonswellingborough.co.uk/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Harrisons Wellingborough</a>: 01933 711 111</li>
-                                    <li><a href="https://www.skylinetaxis.co.uk/northampton/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Skyline Taxis Northampton</a>: 01604 222 111</li>
-                                    <li><a href="https://www.swiftcabs.co.uk/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Swift Cabs Kettering</a>: 01536 420000</li>
-                                </ul>
-                            </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Getting There -->
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-semibold border-b-2 border-emerald-200 pb-2">Getting There</h3>
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h4 class="font-bold text-xl mb-2">By Car</h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                We recommend that you park at Harrowden Hall for the whole day. Please use the bus provided that will take you to the church and return you to Harrowden Hall after the ceremony.
+                                Please tell us if you intend to use this option when you complete the RSVP form.
+                                <br><br>
+                                <!-- New accent color -->
+                                <strong class="text-emerald-700">Please note the bus from Harrowden Hall will leave promptly at 12:15 pm.</strong>
+                            </p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h4 class="font-bold text-xl mb-2">By Train</h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                The nearest station is Wellingborough, which is approximately a 10-minute taxi ride from Harrowden Hall. There are also train stations at Northampton and Kettering.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h4 class="font-bold text-xl mb-2">Local Taxis</h4>
+                             <p class="text-gray-700 leading-relaxed mb-4">
+                                <strong class="text-emerald-700">We strongly advise that taxis are pre-booked before the big day.</strong>
+                            </p>
+                            <ul class="space-y-2 text-gray-700">
+                                <li>
+                                    <!-- New link color -->
+                                    <a href="https://www.harrisonswellingborough.co.uk/" target="_blank" class="text-emerald-600 hover:underline font-semibold">Harrisons Wellingborough:</a>
+                                    <span>01933 711 111</span>
+                                </li>
+                                <li>
+                                    <a href="https://www.skylinetaxis.co.uk/northampton/" target="_blank" class="text-emerald-600 hover:underline font-semibold">Skyline Taxis Northampton:</a>
+                                    <span>01604 222 111</span>
+                                </li>
+                                 <li>
+                                    <a href="https://www.swiftcabs.co.uk/" target="_blank" class="text-emerald-600 hover:underline font-semibold">Swift Cabs Kettering:</a>
+                                    <span>01536 420 000</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
-                        <h3 class="text-3xl font-bold mb-4">Accommodation</h3>
-                        <p class="mb-4">We recommend booking your accommodation as soon as possible. Here are a few recommendations:</p>
-                        <div class="space-y-4">
-                           <div>
-                                <h4 class="font-bold text-lg"><a href="https://www.accor.com" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">The Hind Hotel</a></h4>
-                                <p>Conveniently located in Wellingborough town centre.</p>
-                           </div>
-                           <div>
-                                <h4 class="font-bold text-lg"><a href="https://www.ketteringparkhotel.co.uk/" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Kettering Park Hotel and Spa</a></h4>
-                                <p>A lovely spa hotel a short drive away.</p>
-                           </div>
-                           <div>
-                                <h4 class="font-bold text-lg"><a href="https://www.premierinn.com/gb/en/hotels/england/northamptonshire/wellingborough/wellingborough.html" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Premier Inn Wellingborough</a></h4>
-                                <p>A reliable and budget-friendly choice.</p>
-                           </div>
-                           <div>
-                                <h4 class="font-bold text-lg"><a href="https://www.travelodge.co.uk/hotels/338/Wellingborough-Rushden-hotel" target="_blank" rel="noopener noreferrer" class="text-gray-800 hover:text-[#C08261] underline">Travelodge Wellingborough</a></h4>
-                                <p>Another great budget-friendly option.</p>
-                           </div>
+                    
+                    <!-- Accommodation -->
+                    <div class="space-y-6">
+                        <h3 class="text-3xl font-semibold border-b-2 border-emerald-200 pb-2">Accommodation</h3>
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h4 class="font-bold text-xl mb-2">
+                                <a href="https://www.greeneking-pubs.co.uk/pubs/northamptonshire/hind-hotel/" target="_blank" class="text-emerald-600 hover:underline">
+                                    The Hind Hotel
+                                </a>
+                            </h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                Conveniently located in Wellingborough town centre.
+                            </p>
                         </div>
-                        <p class="mt-6 text-sm italic text-gray-600">Local Airbnb options may also be available.</p>
+                        
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h4 class="font-bold text-xl mb-2">
+                                <a href="https://www.ketteringparkhotel.co.uk/" target="_blank" class="text-emerald-600 hover:underline">
+                                    Kettering Park Hotel & Spa
+                                </a>
+                            </h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                A lovely spa hotel approximately 15 minutes drive away.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h4 class="font-bold text-xl mb-2">
+                                <a href="https://www.premierinn.com/gb/en/hotels/england/northamptonshire/wellingborough/wellingborough.html" target="_blank" class="text-emerald-600 hover:underline">
+                                    Premier Inn Wellingborough
+                                </a>
+                            </h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                A reliable and budget-friendly choice.
+                            </p>
+                        </div>
+                        
+                         <div class="bg-white p-6 rounded-lg shadow-md">
+                            <h4 class="font-bold text-xl mb-2">
+                                <a href="https://www.travelodge.co.uk/hotels/630/Wellingborough-hotel" target="_blank" class="text-emerald-600 hover:underline">
+                                    Travelodge Wellingborough
+                                </a>
+                            </h4>
+                            <p class="text-gray-700 leading-relaxed">
+                                Another budget-friendly option.
+                            </p>
+                        </div>
+                        
+                        <div class="mt-4 text-center text-gray-600">
+                            <p>Local Airbnb options may also be available.</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -275,107 +438,140 @@
                 <div class="max-w-3xl mx-auto space-y-6">
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h4 class="font-bold text-xl mb-2">When should I RSVP by?</h4>
-                        <p>Please let us know if you can make it by <strong class="text-[#C08261]">August 1st, 2026</strong> by clicking the RSVP tab on our website.</p>
+                        <p>Please let us know if you can make it by 30th April 2026 by clicking on the RSVP tab above.</p>
                     </div>
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h4 class="font-bold text-xl mb-2">Can I bring a plus-one?</h4>
-                        <p>Due to venue capacity, we can only accommodate those guests formally invited on your wedding invitation. Thank you for your understanding!</p>
+                        <p>We can only accommodate those guests formally invited on your wedding invitation. Thank you for your understanding!</p>
                     </div>
                      <div class="bg-white p-6 rounded-lg shadow-md">
                         <h4 class="font-bold text-xl mb-2">Are children welcome?</h4>
-                        <p>While we love your little ones, our wedding will be an adults-only celebration. We hope you enjoy having the evening off!</p>
+                        <p>We love your little ones but the day will be an adults-only celebration, apart from close family.</p>
                     </div>
                      <div class="bg-white p-6 rounded-lg shadow-md">
                         <h4 class="font-bold text-xl mb-2">Do you have a gift registry?</h4>
-                        <p>Your presence at our wedding is the greatest gift of all. However, should you wish to honour us with a gift, a contribution to our honeymoon fund would be much appreciated.</p>
+                        <p>Your presence at our wedding is the greatest gift of all. However, if you’d like to give us something, a contribution to our honeymoon would be greatly appreciated.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="font-bold text-xl mb-2">What is the dress code?</h4>
+                        <p>Formal attire. We’d love for everyone to dress up and celebrate with us in style. To help our wedding party shine, we kindly ask that you avoid wearing dark green.</p>
                     </div>
                      <div class="bg-white p-6 rounded-lg shadow-md">
-                        <h4 class="font-bold text-xl mb-2">I have a dietary requirement, what should I do?</h4>
-                        <p>Please let us know about any dietary requirements or allergies when you RSVP so we can pass this information on to our caterers.</p>
+                        <h4 class="font-bold text-xl mb-2">What is the address of your wedding?</h4>
+                        <p class="leading-relaxed">
+                            The church address is: All Saints Church, Earls Barton, Northampton, NN6 0JG (What Three Words - ///factually.repayment.commuted)
+                            <br>
+                            Harrowden Hall address is: Harrowden Hall, The Slips, Great Harrowden, Wellingborough, NN9 5AD (What Three Words - ///line.sleepy.dozed)
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="font-bold text-xl mb-2">Can I post pictures on social media?</h4>
+                        <p>Please do not take any pictures during the ceremony, we have a lovely photographer to do this for us. After that, please take as many pictures as you like, we’d love to see them! Please refrain from posting any pics of us on social media until we have posted first. Thanks for understanding!</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h4 class="font-bold text-xl mb-2">Any more questions?</h4>
+                        <p>Please contact Alicia or Tom, we’d be happy to help!</p>
                     </div>
                 </div>
             </section>
         </main>
         
-        <footer class="text-center mt-12 py-6 border-t border-gray-200">
-            <p class="text-gray-500">Made with ❤️ for Alicia & Thomas</p>
+        <!-- Footer -->
+        <footer class="text-center py-10 mt-12 bg-emerald-50 border-t border-emerald-100">
+            <p class="text-2xl font-bold" style="font-family: 'Lora', serif;">#AliciaAndThomas2026</p>
+            <p class="text-gray-600 mt-2">September 5, 2026</p>
         </footer>
-    </div>
+
+    </div> <!-- End main-content -->
 
     <script>
-        // --- Password Protection Logic ---
-        const passwordOverlay = document.getElementById('password-overlay');
-        const passwordForm = document.getElementById('password-form');
-        const passwordInput = document.getElementById('password-input');
-        const errorMessage = document.getElementById('error-message');
-        const siteContent = document.getElementById('site-content');
-        const togglePasswordButton = document.getElementById('toggle-password');
-        const eyeIcon = document.getElementById('eye-icon');
-        const eyeOffIcon = document.getElementById('eye-off-icon');
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+            const mainContent = document.getElementById('main-content');
+            const passwordOverlay = document.getElementById('password-overlay');
+            const passwordInput = document.getElementById('password-input');
+            const passwordSubmit = document.getElementById('password-submit');
+            const passwordError = document.getElementById('password-error');
+            const correctPassword = 'celebrate2026'; // Your password
 
-        // --- CHANGE YOUR PASSWORD HERE ---
-        const correctPassword = 'celebrate2026';
-
-        togglePasswordButton.addEventListener('click', function() {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            eyeIcon.classList.toggle('hidden');
-            eyeOffIcon.classList.toggle('hidden');
-        });
-
-        passwordForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const enteredPassword = passwordInput.value;
-
-            if (enteredPassword === correctPassword) {
-                // Fade out the overlay
-                passwordOverlay.style.transition = 'opacity 0.5s ease';
-                passwordOverlay.style.opacity = '0';
-                
-                // Wait for transition to finish before hiding and showing content
-                setTimeout(() => {
-                    passwordOverlay.style.display = 'none';
-                    siteContent.style.display = 'block';
-                }, 500); // 500ms matches the transition duration
-                
-            } else {
-                errorMessage.textContent = 'Incorrect password. Please try again.';
-                passwordInput.value = ''; // Clear the input
-                // Add a shake animation for effect
-                passwordForm.parentElement.classList.add('animate-shake');
-                setTimeout(() => {
-                     passwordForm.parentElement.classList.remove('animate-shake');
-                }, 500);
-            }
-        });
-
-
-        // --- Navigation Logic ---
-        const navLinks = document.querySelectorAll('.nav-link');
-        const contentSections = document.querySelectorAll('.content-section');
-
-        navLinks.forEach(link => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
-
-                // Get the target section ID from href
-                const targetId = link.getAttribute('href').substring(1);
-                
-                // Remove 'active' class from all links and sections
-                navLinks.forEach(navLink => navLink.classList.remove('active'));
-                contentSections.forEach(section => section.classList.remove('active'));
-
-                // Add 'active' class to the clicked link
-                link.classList.add('active');
-
-                // Show the target section
-                const targetSection = document.getElementById(targetId);
-                if (targetSection) {
-                    targetSection.classList.add('active');
+            // Password check
+            function checkPassword() {
+                if (passwordInput.value === correctPassword) {
+                    // Fade out overlay
+                    passwordOverlay.style.opacity = '0';
+                    setTimeout(() => {
+                        passwordOverlay.style.display = 'none';
+                    }, 500);
+                    
+                    // Show main content
+                    mainContent.classList.remove('hidden');
+                } else {
+                    passwordError.style.display = 'block';
+                    passwordInput.classList.add('border-red-500');
                 }
-                 window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            passwordSubmit.addEventListener('click', checkPassword);
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
             });
+
+            // Navigation logic
+            links.forEach(link => {
+                // Don't add click listener to the external RSVP link
+                if (link.getAttribute('target') === '_blank') {
+                    return;
+                }
+                
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Handle active link
+                    links.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Handle active content section
+                    const targetId = this.getAttribute('href').substring(1);
+                    sections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                    
+                    // Scroll to top of content area on page change
+                    window.scrollTo({
+                        top: mainContent.offsetTop, 
+                        behavior: 'smooth' 
+                    });
+                });
+            });
+
+            // Set initial active state
+            document.querySelector('.nav-link[href="#home"]').classList.add('active');
+            document.getElementById('home').classList.add('active');
         });
+
+        // Password visibility toggle
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password-input');
+            const eyeIcon = document.getElementById('eye-icon');
+            const eyeSlashIcon = document.getElementById('eye-slash-icon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.style.display = 'none';
+                eyeSlashIcon.style.display = 'block';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.style.display = 'block';
+                eyeSlashIcon.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
