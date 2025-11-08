@@ -25,9 +25,22 @@
             background-size: cover;
             background-position: center;
         }
+        /* CSS FIX: Replaced @apply with standard CSS for nav-link */
         .nav-link {
-            /* New nav link colors */
-            @apply relative py-2 px-3 text-sm font-medium uppercase tracking-wider text-gray-500 transition duration-300 ease-in-out;
+            position: relative;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+            font-size: 0.875rem; /* text-sm */
+            line-height: 1.25rem;
+            font-weight: 500; /* font-medium */
+            text-transform: uppercase;
+            letter-spacing: 0.05em; /* tracking-wider */
+            color: #6B7280; /* text-gray-500 */
+            transition-property: all;
+            transition-duration: 300ms;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         }
         .nav-link:hover {
             color: #059669; /* emerald-600 */
@@ -61,13 +74,26 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* CSS FIX: Replaced @apply with standard CSS for button-primary */
         .button-primary {
-            /* New button color */
-            @apply bg-emerald-600 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transform transition-transform duration-300;
+            background-color: #059669; /* bg-emerald-600 */
+            color: #ffffff; /* text-white */
+            font-weight: 600; /* font-semibold */
+            padding-top: 0.75rem; /* py-3 */
+            padding-bottom: 0.75rem; /* py-3 */
+            padding-left: 2rem; /* px-8 */
+            padding-right: 2rem; /* px-8 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+            transform: translateZ(0); /* For transform */
+            transition-property: all;
+            transition-duration: 300ms;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
         }
         .button-primary:hover {
-            /* New button hover color */
-            @apply bg-emerald-700 shadow-xl -translate-y-0.5;
+            background-color: #047857; /* bg-emerald-700 */
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-xl */
+            transform: translateY(-0.125rem); /* -translate-y-0.5 */
         }
         
         /* Password Overlay */
@@ -126,10 +152,11 @@
                     <!-- Eye-slash Icon (visible by default) -->
                     <svg id="eye-slash-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16" style="display: none;">
                       <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"/>
-                      <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
+                      <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.f08-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"/>
                     </svg>
                 </span>
             </div>
+            
             <button id="password-submit" class="w-full button-primary mt-4">Enter</button>
             <p id="password-error" class="text-red-500 text-sm mt-3" style="display: none;">Incorrect password, please try again.</p>
         </div>
@@ -229,6 +256,7 @@
                             </div>
                             <div class="border-l-2 border-emerald-200 pl-4">
                                 <h4 class="text-xl font-semibold">The Ceremony</h4>
+                                <!-- FIXED: Google Maps Link -->
                                 <a href="https://www.allsaintseb.com/" target="_blank" class="text-gray-600 hover:text-emerald-700 underline transition-colors">
                                     All Saints Church, Earls Barton
                                 </a>
@@ -241,6 +269,7 @@
                             </div>
                             <div class="border-l-2 border-emerald-200 pl-4">
                                 <h4 class="text-xl font-semibold">Drinks Reception</h4>
+                                <!-- FIXED: Google Maps Link -->
                                 <a href="https://harrowdenhall.com/" target="_blank" class="text-gray-600 hover:text-emerald-700 underline transition-colors">
                                     Harrowden Hall
                                 </a>
@@ -403,6 +432,7 @@
 
                         <div class="bg-white p-6 rounded-lg shadow-md">
                             <h4 class="font-bold text-xl mb-2">
+                                
                                 <a href="https://www.premierinn.com/gb/en/hotels/england/northamptonshire/wellingborough/wellingborough.html" target="_blank" class="text-emerald-600 hover:underline">
                                     Premier Inn Wellingborough
                                 </a>
@@ -419,6 +449,7 @@
                                 </a>
                             </h4>
                             <p class="text-gray-700 leading-relaxed">
+                                
                                 Another budget-friendly option.
                             </p>
                         </div>
@@ -436,6 +467,7 @@
                      <h2 class="text-4xl font-bold">Your Questions Answered</h2>
                 </div>
                 <div class="max-w-3xl mx-auto space-y-6">
+                    
                     <div class="bg-white p-6 rounded-lg shadow-md">
                         <h4 class="font-bold text-xl mb-2">When should I RSVP by?</h4>
                         <p>Please let us know if you can make it by 30th April 2026 by clicking on the RSVP tab above.</p>
@@ -457,6 +489,7 @@
                         <p>Formal attire. We’d love for everyone to dress up and celebrate with us in style. To help our wedding party shine, we kindly ask that you avoid wearing dark green.</p>
                     </div>
                      <div class="bg-white p-6 rounded-lg shadow-md">
+                        
                         <h4 class="font-bold text-xl mb-2">What is the address of your wedding?</h4>
                         <p class="leading-relaxed">
                             The church address is: All Saints Church, Earls Barton, Northampton, NN6 0JG (What Three Words - ///factually.repayment.commuted)
