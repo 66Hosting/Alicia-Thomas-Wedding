@@ -20,11 +20,17 @@
             font-family: 'Lora', serif;
         }
         .header-bg {
-            /* New header image and tint */
-            background-image: url("..f9a1d08f-3662-45c9-9394-2ba8d8acceb7.JPG");
-            background-size: cover;
-            background-position: center;
+          /* This creates a 50% black overlay. 
+         You can change 0.5 to 0.7 for a darker overlay
+         or 0.3 for a lighter one. */
+          background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                    url("..f9a1d08f-3662-45c9-9394-2ba8d8acceb7.JPG");
+                    
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
+        
         /* CSS FIX: Replaced @apply with standard CSS for nav-link */
         .nav-link {
             position: relative;
